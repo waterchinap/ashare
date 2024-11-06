@@ -1,0 +1,12 @@
+---
+import Layout from "@/layouts/Layout.astro"
+const posts = await Astro.glob('./reports/*.astro')
+---
+<Layout title="reports">
+    <h2>报告目录</h2>
+    <div class="flex flex-row flex-wrap gap-4">
+        {posts.map((post) => (
+        <a href={post.url} class="btn w-32"><span>{post.url.split('/').pop()}</span></a>
+            ))}
+    </div>
+</Layout>
