@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+    a {
+            text-decoration: none; /* 去掉下划线 */
+            color: inherit; /* 继承父元素的颜色 */
+        }
+    .lab_container_{{ uid }} {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(8em, 1fr));
+        gap: 2px
+    }
+    
+    .lab_{{ uid }} {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid gray;
+        width: 8em; 
+        margin: 2px; 
+        background-color: white;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    
+    .lab_content_{{ uid }} {
+        display: flex;
+        width: 8em; 
+        flex-direction: row;
+    }
+    .lab_rank_{{ uid }} {
+        display: flex;
+        width: 2em; 
+        height: 1.5em; 
+        border-right: 2px solid gray;
+        align-items: center;
+        justify-content: center;
+        font-size: 1em; 
+    }
+    
+    .lab_title_{{ uid }} {
+        display: flex;
+        width: 6em;
+        height: 1.5; 
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+        font-size: 1em; 
+    }
+
+    .lab_value_{{ uid }} {
+        display: flex;
+        width: 8em;
+        height: 1.5em; 
+        border-top: 2px solid gray;
+        align-items: center;
+        justify-content: center;
+        font-size: 1em; 
+    }
+    </style>
+</head>
+<body>
+    <div class="lab_container_{{ uid }}">
+        {% for t in df.itertuples() %}
+        <div class="lab_{{ uid }}">
+            <div class="lab_content_{{ uid }}">
+                <div class="lab_rank_{{ uid }}">{{t[3]}}</div>
+                <div class="lab_title_{{ uid }}"><a href="https://data.eastmoney.com/stockdata/{{t[4]}}.html" target="_blank">{{t[1]}}</a></div>
+            </div>
+            {% if not oneline %}
+            <div class="lab_value_{{ uid }}">{{t[2]}}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+
