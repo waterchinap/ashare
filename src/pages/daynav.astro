@@ -1,0 +1,53 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import dayjs from 'dayjs';
+
+// 生成日期数据
+const startDate = dayjs('1939-01-01');
+const endDate = dayjs('1945-12-31');
+
+const dates = [];
+for (let date = startDate; date.isBefore(endDate) || date.isSame(endDate); date = date.add(1, 'day')) {
+  dates.push(date.format('YYYY-MM-DD'));
+}
+
+// 按年月分组
+const groupedDates = dates.reduce((acc, date) => {
+  const [year, month] = date.split('-');
+  if (!acc[year]) acc[year] = {};
+  if (!acc[year][month]) acc[year][month] = [];
+  acc[year][month].push(date);
+  return acc;
+}, {});
+
+---
+
+<Layout title="days">
+    <h2>Nav by days</h2>
+    <div class="flex flex-col">
+        {
+            Object.keys(groupedDates).map(year => (
+              <details>
+                <summary class="">{year}</summary>
+                {
+                  Object.keys(groupedDates[year]).sort().map(month => (
+                    <details>
+                      <summary class="ml-[5%]">{month}</summary>
+                      <div class="flex flex-row flex-wrap justify-between">
+                        {
+                          groupedDates[year][month].map(date => (
+                            <a href={`/byday/${date}`}>
+                                <div class="mx-1 px-1">{date}</div></a>
+                            
+                          ))
+                        }
+                      </div>
+                    </details>
+                  ))
+                }
+              </details>
+            ))
+          }
+    </div>
+
+</Layout>
