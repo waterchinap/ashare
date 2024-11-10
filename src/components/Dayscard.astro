@@ -1,0 +1,11 @@
+---
+const {data} = Astro.props
+---
+
+<div class="flex flex-row flex-wrap gap-1 justify-between">
+    {data.map((d)=>(
+        <a href={`/byday/${d}`}>
+            <div class="btn-sm mx-1 px-0 w-24">{d}</div>
+        </a>
+    ))}
+</div>
