@@ -1,12 +1,17 @@
 ---
 import Dayscard from "@/components/Dayscard.astro";
-const months = Array.from({ length: 12 }, (_, i) => (i + 1).toString().padStart(2, '0'));
 const {data} = Astro.props
+const months = Object.keys(data).sort();
 ---
 
 <div role="tablist" class="tabs tabs-bordered">
-    { months.map((m) => (
-        <input type="radio" name="month_tab" role="tab" class="tab" aria-label={m} />
+    { months.map((m, index) => (
+        <>
+        {index === 0 ?
+        <input type="radio" name="month_tab" role="tab" class="tab" aria-label={m} checked="checked"/>
+        :
+        <input type="radio" name="month_tab" role="tab" class="tab" aria-label={m} />}
+        </>
         <div role="tabpanel" class="tab-content p-1">
             <Dayscard data={data[m]}/>
         </div>

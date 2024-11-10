@@ -2,35 +2,36 @@
 import Layout from "@/layouts/Layout.astro";
 // import Dayscard from "@/components/Dayscard.astro";
 import Monthscard from '@/components/Monthscard.astro';
-const years=Array.from({ length: 7 }, (_, i) => (i + 1939).toString());
-import dayjs from 'dayjs';
+import jdata from '@/components/events.json'
 
-// 生成日期数据
-const startDate = dayjs('1939-01-01');
-const endDate = dayjs('1945-12-31');
-
-const dates = [];
-for (let date = startDate; date.isBefore(endDate) || date.isSame(endDate); date = date.add(1, 'day')) {
-  dates.push(date.format('YYYY-MM-DD'));
-}
-
-// 按年月分组
-const groupedDates = dates.reduce((acc, date) => {
-  const [year, month] = date.split('-');
-  if (!acc[year]) acc[year] = {};
-  if (!acc[year][month]) acc[year][month] = [];
-  acc[year][month].push(date);
-  return acc;
-}, {});
+const years = Object.keys(jdata).sort()
 ---
 
 <Layout title="tab">
-
     <div role="tablist" class="tabs tabs-bordered">
-        { years.map((y) => (
-            <input type="radio" name='year_tab' role="tab" class="tab" aria-label={y} />
+        { years.map((y, index) => (
+          <>{
+            index === 3 ?
+            <input 
+                  type="radio" 
+                  name='year_tab' 
+                  role="tab" 
+                  class="tab" 
+                  aria-label={y} 
+                  checked
+              /> 
+            :
+            <input 
+                  type="radio" 
+                  name='year_tab' 
+                  role="tab" 
+                  class="tab" 
+                  aria-label={y} 
+              /> 
+          }
+          </>
             <div role="tabpanel" class="tab-content p-2">
-                <Monthscard data={groupedDates[y]}/>
+                <Monthscard data={jdata[y]}/>
             </div>
         ))}
       </div>
