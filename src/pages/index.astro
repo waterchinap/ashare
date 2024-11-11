@@ -12,13 +12,14 @@ const days: number = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 const wwstart = new Date('1939-09-01')
 const wwtoday = new Date(wwstart.getTime() + timeDifference)
 const wwstr = wwtoday.toISOString().split('T')[0]
-// 使用 Astro.glob 动态加载文件
 // const instr = `/byday/${tstr}.md`
-const files = await Astro.glob('./byday/2024*.md');
+import {getEntry} from 'astro:content'
+// import type from 'astro:content'
+import type { CollectionEntry, Render } from 'astro:content';
+const entry : CollectionEntry<'ww'> | undefined  = await getEntry('ww', `${tstr}`)
 
-// 根据日期选择特定的文件
-const todayFile = files.find(file => file.url.includes(tstr));
 
+const {Content} = await entry.render()
 ---
 
 <Layout title="Ashare">
@@ -28,7 +29,9 @@ const todayFile = files.find(file => file.url.includes(tstr));
 			<h3>今天是{tstr}</h3>
 			<h3>俄乌开战第：{days}天</h3>
 			<p>二战开始后的第{days}天：{wwstr}</p>
-			<div set:html={todayFile.compiledContent()}></div>
+			<div class="text-left">
+				<Content />
+			</div>
 		</div>
 	</main>
 </Layout>
