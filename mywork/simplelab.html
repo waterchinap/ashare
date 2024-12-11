@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .lab a {
+            text-decoration: none;
+            /* 去掉下划线 */
+            color: inherit;
+            /* 继承父元素的颜色 */
+        }
+
+        .lab_container {
+               
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(8em, 1fr));
+            gap: 2px
+        }
+
+        .lab {
+
+            display: flex;
+            flex-direction: column;
+            border: 1px solid gray;
+            width: 8em;
+            margin: 2px;
+            background-color: white;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="lab_container">
+        {% for t in df.itertuples() %}
+        <div class="lab">
+            <div class="lab_content_{{ uid }}">
+                <div class="lab_rank_{{ uid }}">{{t[3]}}</div>
+                <div class="lab_title_{{ uid }}"><a href="https://data.eastmoney.com/stockdata/{{t[4]}}.html"
+                        target="_blank">{{t[1]}}</a></div>
+            </div>
+            {% if not oneline %}
+            <div class="lab_value_{{ uid }}">{{t[2]}}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+---
+import { useEffect, useState } from 'react';
+
+const htmlFiles = Astro.glob('../components/htmls/*.html');
+const fileNames = Object.keys(htmlFiles).map(path => path.split('/').pop() as string);
+
+const [currentHtml, setCurrentHtml] = useState('');
+
+const handleClick = (fileName:string) => {
+  fetch(`/htmls/${fileName}`)
+    .then(response => response.text())
+    .then(html => setCurrentHtml(html));
+};
+---
+
+<html>
+<head>
+  <title>HTML Viewer</title>
+</head>
+<body>
+  <div>
+    <h1>HTML Files</h1>
+    <ul>
+      {fileNames.map(fileName => (
+        <li key={fileName}>
+          <a href="#" onClick={() => handleClick(fileName)}>{fileName}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <div>
+    <h2>Content</h2>
+    <div dangerouslySetInnerHTML={{ __html: currentHtml }} />
+  </div>
+</body>
+</html>
